@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:natural_language_shell/src/footer/footer_element.dart';
+import 'package:natural_language_shell/src/history/history_view.dart';
 
-import '../settings/settings_view.dart';
+import 'package:natural_language_shell/src/settings/settings_view.dart';
 
 class TerminalView extends StatelessWidget {
   const TerminalView({super.key});
@@ -22,10 +24,14 @@ class TerminalView extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: Text(
-          "banana",
-        ),
+      body: Stack(
+        children: const [
+          HistoryView(),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Footer(),
+          )
+        ],
       ),
     );
   }
