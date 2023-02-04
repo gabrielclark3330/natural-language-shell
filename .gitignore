@@ -83,3 +83,6 @@ doc/api/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+backend/cpp-httplib-master/**
+!backend/cpp-httplib-master/httplib.h

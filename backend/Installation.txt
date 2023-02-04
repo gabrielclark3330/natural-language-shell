@@ -1,0 +1,7 @@
+//sudo apt-get install openssl
+
+//Probably not this one ^, is default?
+
+sudo apt-get install libssl-dev
+
+Add: "/usr/include/openssl/**" to include path in C/C++ configurations
