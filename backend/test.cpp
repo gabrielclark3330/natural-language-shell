@@ -4,9 +4,9 @@
 
 int main(void)
 {
-	httplib::Client cli("localhost", 1234);
+	httplib::Client cli("https://api.ipify.org");
 
-	if (auto res = cli.Get("/hi")) {
+	if (auto res = cli.Get("/")) {
     	if (res->status == 200) {
 			std::cout << res->body << std::endl;
 		}

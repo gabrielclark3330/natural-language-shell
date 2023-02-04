@@ -1,3 +1,6 @@
+Library for C++ Http Requests:
+* https://github.com/yhirose/cpp-httplib
+
 //sudo apt-get install openssl
 
 //Probably not this one ^, is default?
@@ -5,3 +8,12 @@
 sudo apt-get install libssl-dev
 
 Add: "/usr/include/openssl/**" to include path in C/C++ configurations
+
+Compiling Library and Main Code (Slow):
+* g++ test.cpp cpp-httplib-master/httplib.h -lssl -lcrypto
+
+Precompiling Library:
+* g++ -c cpp-httplib-master/httplib.h -o httplib.h.gch -lssl -lcrypto
+
+Compiling Main Code:
+* g++ test.cpp -lssl -lcrypto
