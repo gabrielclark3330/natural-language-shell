@@ -1,6 +1,14 @@
 {
-    "files.associations": {
-        "*.rmd": "markdown",
-        "iostream": "cpp"
-    }
+	"files.associations": {
+		"*.rmd": "markdown",
+		"iostream": "cpp"
+	},
+	"editor.insertSpaces": false,
+	"[dart]": {
+		"editor.tabSize": 2,
+		"editor.defaultFormatter": "Dart-Code.dart-code"
+	},
+	"[cpp]": {
+		"editor.tabSize": 4,
+	},
 }
