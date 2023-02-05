@@ -5,6 +5,7 @@ import 'dart:ffi' as ffi;
 import 'dart:io' show Directory, Platform, sleep;
 import 'package:path/path.dart' as path;
 import 'package:ffi/ffi.dart';
+import 'package:record/record.dart';
 
 // import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
@@ -48,8 +49,31 @@ class CommandLineArgs {
 }
 
 /// placeholder for actually running the microphone
-bool startMicFunction(BuildContext context) {
+Future<bool> startMicFunction(BuildContext context) async {
+  // Import package
+
+  final record = Record();
+
   var cppCode = path.absolute("cppCode/");
+  var audioFilePath = path.join(cppCode, 'whisper.cpp', 'samples', 'jfk.wav');
+
+  // Check and request permission
+  if (await record.hasPermission()) {
+    // Start recording
+    await record.start();
+    /*
+      path: audioFilePath,
+      encoder: AudioEncoder.aacLc, // by default
+      bitRate: 128000, // by default
+      samplingRate: 44100, // by default
+    */
+  }
+
+// Get the state of the recorder
+  bool isRecording = await record.isRecording();
+
+// Stop recording
+  await record.stop();
   var libraryPath = path.join(cppCode, 'whisper.cpp', 'libwhisper.so');
   if (Platform.isMacOS) {
     libraryPath = path.join(cppCode, 'whisper.cpp', 'libwhisper.dylib');
@@ -70,12 +94,13 @@ bool startMicFunction(BuildContext context) {
   var cmdArgs = CommandLineArgs(
       whisperCodePath + " -m " + whisperModelPath + " -f " + audioWavPath);
 
-  //speech_text =
-  translate(cmdArgs.argc, cmdArgs.argv).toDartString();
+  String speech_text = translate(cmdArgs.argc, cmdArgs.argv).toDartString();
   cmdArgs.free();
 
+  print(speech_text);
+
   var textField = Provider.of<InputModel>(context, listen: false);
-  textField.set("INPUT FROM MICROPHONE");
+  textField.set(speech_text);
   return true;
 }
 
@@ -111,14 +136,15 @@ class _MicButton extends State<MicButton> {
       onPressed: () {
         // basic logic for only showing mic on if the mic completes a check and actually turns on.
         if (isOff) {
-          bool micStart = startMicFunction(context);
+          Future<bool> micStart = startMicFunction(context);
+          /*
           if (micStart) {
             setState(() {
               isOff = false;
             });
           } else {
             throw Exception("Mic no starty");
-          }
+          }*/
         } else {
           setState(() {
             isOff = true;

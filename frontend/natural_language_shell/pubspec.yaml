@@ -16,6 +16,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   provider: ^6.0.0
+  record: ^4.4.4
 
 dev_dependencies:
   flutter_test:
