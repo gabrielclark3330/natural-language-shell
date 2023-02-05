@@ -53,6 +53,16 @@ class _Standard extends State<Standard> {
   }
 
   Future<http.Response> send(String command, String key) {
+    String prompt;
+    var temp = Provider.of<TerminalModel>(context, listen: false);
+
+    if (temp.terminalSetting == 1) {
+      prompt =
+          "// Translate the following newline separated instructions into bash commands. Only output bash commands without additional text. \n";
+    } else {
+      prompt = "// Explain the following bash command in natural language. \n";
+    }
+
     return http.post(
       Uri.parse('https://api.openai.com/v1/completions'),
       headers: <String, String>{
@@ -61,8 +71,7 @@ class _Standard extends State<Standard> {
       },
       body: jsonEncode(<String, dynamic>{
         "model": "text-davinci-003",
-        "prompt":
-            "// Translate the following newline separated instructions into bash commands. Only output bash commands without additional text. \n $command",
+        "prompt": "$prompt $command",
         "max_tokens": 1024
       }),
     );

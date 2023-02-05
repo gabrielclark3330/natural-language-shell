@@ -9,10 +9,7 @@ import 'terminal/terminal_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-    required this.settingsController,
-  });
+  const MyApp({super.key, required this.settingsController});
 
   final SettingsController settingsController;
 
@@ -60,6 +57,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
+          // terminalMode: terminalController.terminalMode,
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.

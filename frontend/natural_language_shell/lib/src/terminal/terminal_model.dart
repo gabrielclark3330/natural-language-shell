@@ -6,6 +6,14 @@ class TerminalModel extends ChangeNotifier {
   final List<String> _commandHistory = [];
   final List<String> _commandToRun = [];
   // final List<String> _commandResponses = [];
+  int _terminalSetting = 1;
+
+  int get terminalSetting => _terminalSetting;
+
+  void setTerminalSetting(int value) {
+    _terminalSetting = value;
+    notifyListeners();
+  }
 
   UnmodifiableListView<String> get history =>
       UnmodifiableListView(_commandHistory);
