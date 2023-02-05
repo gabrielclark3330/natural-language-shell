@@ -39,7 +39,8 @@ class _InputField extends State<InputField> {
                 FocusScope.of(context).requestFocus(textField.focus);
               },
               decoration: const InputDecoration(
-                hintText: "helpme",
+                hintText: "List the contents of the home directory...",
+                hintStyle: TextStyle(fontStyle: FontStyle.italic),
               ),
             );
           })),

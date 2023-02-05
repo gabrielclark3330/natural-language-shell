@@ -136,7 +136,7 @@ class _MicButton extends State<MicButton> {
       onPressed: () {
         // basic logic for only showing mic on if the mic completes a check and actually turns on.
         if (isOff) {
-          Future<bool> micStart = startMicFunction(context);
+          // Future<bool> micStart = startMicFunction(context);
           /*
           if (micStart) {
             setState(() {
