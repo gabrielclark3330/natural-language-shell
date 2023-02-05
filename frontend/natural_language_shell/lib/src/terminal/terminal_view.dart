@@ -3,15 +3,37 @@ import 'package:natural_language_shell/src/footer/footer_element.dart';
 import 'package:natural_language_shell/src/history/history_view.dart';
 
 import 'package:natural_language_shell/src/settings/settings_view.dart';
+import 'package:natural_language_shell/src/terminal/terminal_model.dart';
+import 'package:provider/provider.dart';
 
 class TerminalView extends StatelessWidget {
   const TerminalView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Natural Language Terminal'),
         actions: [
+          Consumer<TerminalModel>(builder: (context, term, child) {
+            return DropdownButton<int>(
+                value: term.terminalSetting,
+                // Call the updateThemeMode method any time the user selects a theme.
+                onChanged: (mode) {
+                  var term = Provider.of<TerminalModel>(context, listen: false);
+                  term.setTerminalSetting(mode!);
+                },
+                items: const [
+                  DropdownMenuItem(
+                    value: 1,
+                    child: Text('Generate Command'),
+                  ),
+                  DropdownMenuItem(
+                    value: 2,
+                    child: Text('Explain Command'),
+                  ),
+                ]);
+          }),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
