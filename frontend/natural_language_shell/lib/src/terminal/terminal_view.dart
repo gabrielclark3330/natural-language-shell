@@ -6,7 +6,6 @@ import 'package:natural_language_shell/src/settings/settings_view.dart';
 
 class TerminalView extends StatelessWidget {
   const TerminalView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +25,9 @@ class TerminalView extends StatelessWidget {
       ),
       body: Stack(
         children: const [
+          // Part that shows all the previous commands and the output of the command.
           HistoryView(),
+          // Input fields and related widgets.
           Align(
             alignment: Alignment.bottomLeft,
             child: Footer(),
