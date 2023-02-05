@@ -40,8 +40,7 @@ class _Standard extends State<Standard> {
             horizontal: 0,
             vertical: 4,
           ),
-          child: SizedBox(
-            height: 20,
+          child: IntrinsicHeight(
             child: Text("> $query"),
           ),
         ),
@@ -50,8 +49,8 @@ class _Standard extends State<Standard> {
             horizontal: 0,
             vertical: 4,
           ),
-          child: SizedBox(
-            height: 20,
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
             child: FutureBuilder(
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
