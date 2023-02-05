@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:natural_language_shell/src/terminal/terminal_model.dart';
+import 'package:provider/provider.dart';
 
 class Standard extends StatefulWidget {
   final int index;
@@ -8,14 +10,14 @@ class Standard extends StatefulWidget {
 
   @override
   // ignore: no_logic_in_create_state
-  State<Standard> createState() => _Standard(index, query);
+  State<Standard> createState() => _Standard(index);
 }
 
 class _Standard extends State<Standard> {
   late Future<String> _data;
   final int index;
-  final String query;
-  _Standard(this.index, this.query);
+  // final String query;
+  _Standard(this.index);
 
   @override
   void initState() {
@@ -41,7 +43,9 @@ class _Standard extends State<Standard> {
             vertical: 4,
           ),
           child: IntrinsicHeight(
-            child: Text("> $query"),
+            child: Consumer<TerminalModel>(builder: (context, term, child) {
+              return Text("> ${term.history[index]}");
+            }),
           ),
         ),
         Padding(
