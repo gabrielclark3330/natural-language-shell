@@ -12,10 +12,11 @@ class Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
           top: BorderSide(width: 4),
         ),
+        color: Theme.of(context).canvasColor,
       ),
       child: Row(
         children: [
