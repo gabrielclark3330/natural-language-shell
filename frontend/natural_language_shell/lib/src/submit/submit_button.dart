@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
 final ButtonStyle flatButtonStyle = TextButton.styleFrom(
   minimumSize: const Size(10, 10),
-  backgroundColor: Colors.grey,
+  // backgroundColor: Colors.grey,
   padding: const EdgeInsets.all(0),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(0),
