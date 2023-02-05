@@ -66,35 +66,32 @@ class _Standard extends State<Standard> {
 
   Future<String> getResponse() async {
     var temp = Provider.of<TerminalModel>(context, listen: false);
-    final String response =
-        await rootBundle.loadString('assets/keys/secret.json');
-    final data = await json.decode(response);
-    var res = await send(temp.history[index], data['key']);
-    OpenAI oai = OpenAI.fromJson(jsonDecode(res.body));
+    // final String response =j
 
-    // var cppCode = path.absolute("cppCode/");
-    // var libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.so');
-    // if (Platform.isMacOS) {
-    //   libraryPath =
-    //       path.join(cppCode, 'shellApi', 'libshell_api_library.dylib');
-    // } else if (Platform.isWindows) {
-    //   libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.dll');
-    // }
+    var cppCode = path.absolute("cppCode/");
+    var libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.so');
+    if (Platform.isMacOS) {
+      libraryPath =
+          path.join(cppCode, 'shellApi', 'libshell_api_library.dylib');
+    } else if (Platform.isWindows) {
+      libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.dll');
+    }
 
     // // String whisperCodePath = path.join(cppCode, 'whisperCpp', 'main');
 
-    // final dylib = ffi.DynamicLibrary.open(libraryPath);
-    // final ShellCommandRunner exec = dylib
-    //     .lookup<ffi.NativeFunction<shell_command_runner>>('exec')
-    //     .asFunction();
+    final dylib = ffi.DynamicLibrary.open(libraryPath);
+    final ShellCommandRunner exec = dylib
+        .lookup<ffi.NativeFunction<shell_command_runner>>('exec')
+        .asFunction();
 
-    // String programOutput =
-    //     exec(temp.history[index].toNativeUtf8()).toDartString();
-    // print(programOutput);
+    String programOutput =
+        exec(temp.history[index].toNativeUtf8()).toDartString();
+    print(programOutput);
 
-    print(jsonDecode(res.body));
+    // print(jsonDecode(res.body));
     return Future.delayed(const Duration(seconds: 4), () {
-      return oai.output.trim();
+      return programOutput;
+      // return oai.output.trim();
 
       // throw Exception("Custom Error");
     });
