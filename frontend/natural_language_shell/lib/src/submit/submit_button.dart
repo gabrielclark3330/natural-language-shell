@@ -31,7 +31,7 @@ class SubmitButton extends StatelessWidget {
               if (textField.field.isNotEmpty) {
                 // send only if there is something to send
                 var text = Provider.of<TerminalModel>(context, listen: false);
-                text.add(textField.field);
+                text.addCommand(textField.field);
               }
             },
             child: const Icon(Icons.keyboard_return_sharp, size: 48),

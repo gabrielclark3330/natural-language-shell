@@ -39,7 +39,7 @@ class _InputField extends State<InputField> {
             onSubmitted: (value) {
               // Sends the current value of text field to either output, history or a function.
               var term = Provider.of<TerminalModel>(context, listen: false);
-              term.add(value);
+              term.addCommand(value);
               inputController.text = "";
               var text = Provider.of<InputModel>(context, listen: false);
               text.change("");

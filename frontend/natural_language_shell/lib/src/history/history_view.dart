@@ -15,11 +15,20 @@ class HistoryView extends StatelessWidget {
     return Consumer<TerminalModel>(
       builder: (context, term, child) {
         return ListView.builder(
-          itemCount: min(term.commandCount, 30),
+          itemCount: min(term.commandCount, 15),
           itemBuilder: (BuildContext context, int index) {
-            return SizedBox(
-              height: 20,
-              child: Text("> ${term.history[index]}"),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                  child: Text("> ${term.history[index]}"),
+                ),
+                SizedBox(
+                  height: 20,
+                  child: Text("\$> ${term.responses[index]}"),
+                ),
+              ],
             );
           },
         );
