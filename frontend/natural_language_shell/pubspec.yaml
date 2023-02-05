@@ -17,10 +17,13 @@ dependencies:
     sdk: flutter
   provider: ^6.0.0
   record: ^4.4.4
+  http:
+  json_annotation:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  json_serializable:
 
   flutter_lints: ^2.0.0
 
@@ -33,3 +36,4 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/keys/

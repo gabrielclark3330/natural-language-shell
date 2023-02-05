@@ -31,7 +31,9 @@ class _HistoryView extends State<HistoryView> {
           scrollDirection: Axis.vertical,
           clipBehavior: Clip.none,
           itemBuilder: (BuildContext context, int index) {
-            return Standard(index, term.history[index]);
+            return Wrap(children: [
+              Standard(index, term.history[index]),
+            ]);
           },
         );
       },
