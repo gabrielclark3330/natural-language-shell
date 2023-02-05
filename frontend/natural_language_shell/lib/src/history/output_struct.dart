@@ -109,7 +109,8 @@ class _Standard extends State<Standard> {
           ),
           child: IntrinsicHeight(
             child: Consumer<TerminalModel>(builder: (context, term, child) {
-              return Text("> ${term.history[index]}");
+              return Text("> ${term.history[index]}",
+                  style: TextStyle(fontSize: 18));
             }),
           ),
         ),
@@ -122,11 +123,12 @@ class _Standard extends State<Standard> {
             child: FutureBuilder(
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return Text("< ${snapshot.data}");
+                  return Text(
+                      "< ${snapshot.data}, style: TextStyle(fontSize: 18),");
                 } else {
                   return Row(
                     children: const [
-                      Text("< "),
+                      Text("< ", style: TextStyle(fontSize: 18)),
                       Icon(Icons.timer),
                     ],
                   );
