@@ -18,7 +18,7 @@ class TerminalModel extends ChangeNotifier {
     _commandHistory.add(str);
     notifyListeners();
 
-    while (_commandHistory.length > 5) {
+    while (_commandHistory.length > 25) {
       _commandHistory.removeAt(0);
     }
 

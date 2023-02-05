@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:natural_language_shell/src/input/input_model.dart';
+import 'package:provider/provider.dart';
 
 // import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
@@ -11,7 +13,9 @@ class MicButton extends StatefulWidget {
 }
 
 /// placeholder for actually running the microphone
-bool startMicFunction() {
+bool startMicFunction(BuildContext context) {
+  var textField = Provider.of<InputModel>(context, listen: false);
+  textField.set("INPUT FROM MICROPHONE");
   return true;
 }
 
@@ -47,7 +51,7 @@ class _MicButton extends State<MicButton> {
       onPressed: () {
         // basic logic for only showing mic on if the mic completes a check and actually turns on.
         if (isOff) {
-          bool micStart = startMicFunction();
+          bool micStart = startMicFunction(context);
           if (micStart) {
             setState(() {
               isOff = false;

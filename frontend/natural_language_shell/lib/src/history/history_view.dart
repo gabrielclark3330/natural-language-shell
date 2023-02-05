@@ -16,7 +16,7 @@ class HistoryView extends StatelessWidget {
     return Consumer<TerminalModel>(
       builder: (context, term, child) {
         return ListView.builder(
-          itemCount: min(term.commandCount, 7),
+          itemCount: term.commandCount,
           itemBuilder: (BuildContext context, int index) {
             return Standard(index, term.history[index]);
           },
