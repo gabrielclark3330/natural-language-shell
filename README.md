@@ -49,13 +49,12 @@ Run these commands in the terminal to get their equivalent bash form.
 * `tr -dc A-Za-z0-9 < /dev/urandom | head -c 16`
   * `rX4Bs1u6MvJQdXg1`
 
-## To project running:
+## To get project running:
 * Clone repo
 * "cd natural-language-shell/frontend/natural_language_shell/cppCode/"
-* perform
-* run "cmake ."
-* run "make"
-* for all
+* run "cmake ." and "make" for each sub directory
+* currently whisper integration only works on mac and linux
+
 
 
 ## Future Improvements
