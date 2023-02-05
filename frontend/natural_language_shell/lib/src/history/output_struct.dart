@@ -45,7 +45,7 @@ class _Standard extends State<Standard> {
       libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.dll');
     }
 
-    String whisperCodePath = path.join(cppCode, 'whisper.cpp', 'main');
+    String whisperCodePath = path.join(cppCode, 'whisperCpp', 'main');
 
     final dylib = ffi.DynamicLibrary.open(libraryPath);
     final ShellCommandRunner exec = dylib

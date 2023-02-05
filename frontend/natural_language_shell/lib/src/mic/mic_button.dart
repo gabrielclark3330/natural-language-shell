@@ -55,7 +55,7 @@ Future<bool> startMicFunction(BuildContext context) async {
   final record = Record();
 
   var cppCode = path.absolute("cppCode/");
-  var audioFilePath = path.join(cppCode, 'whisper.cpp', 'samples', 'jfk.wav');
+  var audioFilePath = path.join(cppCode, 'whisperCpp', 'samples', 'jfk.wav');
 
   // Check and request permission
   if (await record.hasPermission()) {
@@ -74,17 +74,17 @@ Future<bool> startMicFunction(BuildContext context) async {
 
 // Stop recording
   await record.stop();
-  var libraryPath = path.join(cppCode, 'whisper.cpp', 'libwhisper.so');
+  var libraryPath = path.join(cppCode, 'whisperCpp', 'libwhisper.so');
   if (Platform.isMacOS) {
-    libraryPath = path.join(cppCode, 'whisper.cpp', 'libwhisper.dylib');
+    libraryPath = path.join(cppCode, 'whisperCpp', 'libwhisper.dylib');
   } else if (Platform.isWindows) {
-    libraryPath = path.join(cppCode, 'whisper.cpp', 'libwhisper.dll');
+    libraryPath = path.join(cppCode, 'whisperCpp', 'libwhisper.dll');
   }
 
-  String whisperCodePath = path.join(cppCode, 'whisper.cpp', 'main');
+  String whisperCodePath = path.join(cppCode, 'whisperCpp', 'main');
   String whisperModelPath =
-      path.join(cppCode, 'whisper.cpp', 'models', 'ggml-base.en.bin');
-  String audioWavPath = path.join(cppCode, 'whisper.cpp', 'samples', 'jfk.wav');
+      path.join(cppCode, 'whisperCpp', 'models', 'ggml-base.en.bin');
+  String audioWavPath = path.join(cppCode, 'whisperCpp', 'samples', 'jfk.wav');
 
   final dylib = ffi.DynamicLibrary.open(libraryPath);
   final WhisperLoop translate = dylib
