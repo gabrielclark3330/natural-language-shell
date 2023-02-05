@@ -24,6 +24,8 @@ class _InputField extends State<InputField> {
           Expanded(
               child: Consumer<InputModel>(builder: (context, textField, child) {
             return TextField(
+              focusNode: textField.focus,
+              autofocus: true,
               style: const TextStyle(
                 fontSize: 20,
               ),
@@ -34,6 +36,7 @@ class _InputField extends State<InputField> {
                 term.addCommand(value);
                 var text = Provider.of<InputModel>(context, listen: false);
                 text.set("");
+                FocusScope.of(context).requestFocus(textField.focus);
               },
               decoration: const InputDecoration(
                 hintText: "helpme",

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 class InputModel extends ChangeNotifier {
   // String _field = "";
   final TextEditingController inputController = TextEditingController();
+  final FocusNode unitCodeCtrlFocusNode = FocusNode();
 
   // String get field => _field;
 
   String get text => inputController.text;
   TextEditingController get controller => inputController;
+
+  FocusNode get focus => unitCodeCtrlFocusNode;
 
   void clear() {
     inputController.text = "";
