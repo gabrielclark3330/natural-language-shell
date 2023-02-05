@@ -33,8 +33,6 @@ std::string sendPrompt(std::string prompt){
 		// {"user", NULL}
 	};
 
-	std::string result = "";
-
 	auto res = client.Post("/v1/completions", data.dump(), "application/json");
 
 	if (res && res->status == 200) {
@@ -43,14 +41,15 @@ std::string sendPrompt(std::string prompt){
 		
 		json response = json::parse(res->body);
     	std::vector<json> choices = response["choices"];
-    	result = choices[0]["text"];
+    	std::string result = choices[0]["text"];
 
+		return result;
 	} else {
 		std::cout << "Request failed" << std::endl;
-		std::cout << res->body << std::endl;
+		return "";
 	}
 
-	return result;
+	
 }
 
 int main() {
@@ -60,8 +59,10 @@ int main() {
 	client.set_bearer_token_auth(getToken());
 
 	std::string response = sendPrompt(prompt);
+	std::cout << "G'DAY MATEY!!!!!" << std::endl;
 
 	std::cout << response << std::endl;
+	std::cout << "YA FINISHED MATE!!!" << std::endl;
 
 	return 0;
 }

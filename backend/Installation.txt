@@ -13,10 +13,10 @@ sudo apt-get install libssl-dev
 Add: "/usr/include/openssl/**" to include path in C/C++ configurations
 
 Compiling Library and Main Code (Slow):
-* g++ shellApi.cpp cpp-httplib-master/httplib.h -lssl -lcrypto
+* g++ shellApi.cpp cpp-httplib-master/httplib.h -lssl -lcrypto -o shellApi.o
 
 Precompiling Library:
 * g++ -c cpp-httplib-master/httplib.h -o httplib.h.gch -lssl -lcrypto
 
 Compiling Main Code:
-* g++ shellApi.cpp -lssl -lcrypto
+* g++ shellApi.cpp -lssl -lcrypto -o shellApi.o
