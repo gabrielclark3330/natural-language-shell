@@ -6,12 +6,11 @@ import 'package:natural_language_shell/src/settings/settings_view.dart';
 
 class TerminalView extends StatelessWidget {
   const TerminalView({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample Items'),
+        title: const Text('Natural Language Terminal'),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -25,12 +24,19 @@ class TerminalView extends StatelessWidget {
         ],
       ),
       body: Stack(
-        children: const [
-          HistoryView(),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Footer(),
-          )
+        children: [
+          // Part that shows all the previous commands and the output of the command.
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 176,
+            child: const HistoryView(),
+          ),
+          // Input fields and related widgets.
+          const Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: 64,
+                child: Footer(),
+              ))
         ],
       ),
     );
