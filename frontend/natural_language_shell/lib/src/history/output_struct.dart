@@ -18,14 +18,14 @@ class Standard extends StatefulWidget {
 
   @override
   // ignore: no_logic_in_create_state
-  State<Standard> createState() => _Standard(index, query);
+  State<Standard> createState() => _Standard(index);
 }
 
 class _Standard extends State<Standard> {
   late Future<String> _data;
   final int index;
-  final String query;
-  _Standard(this.index, this.query);
+  // final String query;
+  _Standard(this.index);
 
   @override
   void initState() {
@@ -72,9 +72,10 @@ class _Standard extends State<Standard> {
             horizontal: 0,
             vertical: 4,
           ),
-          child: SizedBox(
-            height: 20,
-            child: Text("> $query"),
+          child: IntrinsicHeight(
+            child: Consumer<TerminalModel>(builder: (context, term, child) {
+              return Text("> ${term.history[index]}");
+            }),
           ),
         ),
         Padding(
@@ -82,8 +83,8 @@ class _Standard extends State<Standard> {
             horizontal: 0,
             vertical: 4,
           ),
-          child: SizedBox(
-            height: 20,
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
             child: FutureBuilder(
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:natural_language_shell/src/input/input_model.dart';
+import 'package:provider/provider.dart';
 import 'dart:ffi' as ffi;
 import 'dart:io' show Directory, Platform, sleep;
 import 'package:path/path.dart' as path;
@@ -46,7 +48,7 @@ class CommandLineArgs {
 }
 
 /// placeholder for actually running the microphone
-bool startMicFunction() {
+bool startMicFunction(BuildContext context) {
   var cppCode = path.absolute("cppCode/");
   var libraryPath = path.join(cppCode, 'whisper.cpp', 'libwhisper.so');
   if (Platform.isMacOS) {
@@ -72,6 +74,8 @@ bool startMicFunction() {
   translate(cmdArgs.argc, cmdArgs.argv).toDartString();
   cmdArgs.free();
 
+  var textField = Provider.of<InputModel>(context, listen: false);
+  textField.set("INPUT FROM MICROPHONE");
   return true;
 }
 
@@ -107,7 +111,7 @@ class _MicButton extends State<MicButton> {
       onPressed: () {
         // basic logic for only showing mic on if the mic completes a check and actually turns on.
         if (isOff) {
-          bool micStart = startMicFunction();
+          bool micStart = startMicFunction(context);
           if (micStart) {
             setState(() {
               isOff = false;

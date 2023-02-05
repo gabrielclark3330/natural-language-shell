@@ -34,6 +34,7 @@ class SubmitButton extends StatelessWidget {
                 text.addCommand(textField.text);
                 textField.clear();
               }
+              FocusScope.of(context).requestFocus(textField.focus);
             },
             child: const Icon(Icons.keyboard_return_sharp, size: 48),
           ),
