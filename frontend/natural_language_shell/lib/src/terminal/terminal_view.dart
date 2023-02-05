@@ -29,9 +29,11 @@ class TerminalView extends StatelessWidget {
           HistoryView(),
           // Input fields and related widgets.
           Align(
-            alignment: Alignment.bottomLeft,
-            child: Footer(),
-          )
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                height: 64,
+                child: Footer(),
+              ))
         ],
       ),
     );

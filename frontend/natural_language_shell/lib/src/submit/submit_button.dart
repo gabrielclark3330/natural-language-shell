@@ -5,6 +5,11 @@ import 'package:provider/provider.dart';
 
 // import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
+final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+  minimumSize: const Size(10, 10),
+  backgroundColor: Colors.grey,
+  padding: const EdgeInsets.all(0),
+);
 
 class SubmitButton extends StatelessWidget {
   const SubmitButton({super.key});
@@ -14,15 +19,20 @@ class SubmitButton extends StatelessWidget {
     // uses inputmodel for getting text in field
     return Consumer<InputModel>(
       builder: (context, textField, child) {
-        return IconButton(
-          onPressed: () {
-            if (textField.field.isNotEmpty) {
-              // send only if there is something to send
-              var text = Provider.of<TerminalModel>(context, listen: false);
-              text.add(textField.field);
-            }
-          },
-          icon: const Icon(Icons.keyboard_return_sharp),
+        return SizedBox(
+          height: 100.0,
+          width: 200.0,
+          child: TextButton(
+            style: flatButtonStyle,
+            onPressed: () {
+              if (textField.field.isNotEmpty) {
+                // send only if there is something to send
+                var text = Provider.of<TerminalModel>(context, listen: false);
+                text.add(textField.field);
+              }
+            },
+            child: const Icon(Icons.keyboard_return_sharp, size: 48),
+          ),
         );
       },
     );

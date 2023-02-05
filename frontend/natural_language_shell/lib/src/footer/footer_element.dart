@@ -11,28 +11,35 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 10,
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Row(
-              children: const [
-                MicButton(),
-                Expanded(child: InputField()),
-              ],
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          top: BorderSide(width: 4),
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 10,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Row(
+                children: const [
+                  MicButton(),
+                  Expanded(child: InputField()),
+                ],
+              ),
             ),
           ),
-        ),
-        const Expanded(
-          flex: 1,
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: SubmitButton(),
+          const Expanded(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: SubmitButton(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
