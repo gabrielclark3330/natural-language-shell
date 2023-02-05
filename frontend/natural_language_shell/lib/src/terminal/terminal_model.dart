@@ -17,7 +17,7 @@ class TerminalModel extends ChangeNotifier {
   void addCommand(String str) {
     _commandHistory.add(str);
     notifyListeners();
-    addResponse("Ryans");
+    addResponse("what is this?");
   }
 
   void addResponse(String str) {

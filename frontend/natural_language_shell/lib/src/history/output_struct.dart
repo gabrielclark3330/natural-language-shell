@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'dart:ffi' as ffi;
+import 'dart:io' show Directory, Platform, sleep;
+import 'package:path/path.dart' as path;
+import 'package:ffi/ffi.dart';
+
+typedef shell_command_runner = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
+typedef ShellCommandRunner = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
+
 class Standard extends StatefulWidget {
   final int index;
   final String query;
@@ -24,6 +32,25 @@ class _Standard extends State<Standard> {
   }
 
   Future<String> getResponse() async {
+    var cppCode = path.absolute("cppCode/");
+    var libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.so');
+    if (Platform.isMacOS) {
+      libraryPath =
+          path.join(cppCode, 'shellApi', 'libshell_api_library.dylib');
+    } else if (Platform.isWindows) {
+      libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.dll');
+    }
+
+    String whisperCodePath = path.join(cppCode, 'whisper.cpp', 'main');
+
+    final dylib = ffi.DynamicLibrary.open(libraryPath);
+    final ShellCommandRunner exec = dylib
+        .lookup<ffi.NativeFunction<shell_command_runner>>('exec')
+        .asFunction();
+
+    String programOutput = exec(str.toNativeUtf8()).toDartString();
+    print(programOutput);
+
     return Future.delayed(const Duration(seconds: 2), () {
       return "I am data";
       // throw Exception("Custom Error");

@@ -1,0 +1,3 @@
+/Users/gabrielclark/Documents/projects/natural-language-shell/frontend/natural_language_shell/CppCode/shellApi/CMakeFiles/shell_api_library.dir
+/Users/gabrielclark/Documents/projects/natural-language-shell/frontend/natural_language_shell/CppCode/shellApi/CMakeFiles/edit_cache.dir
+/Users/gabrielclark/Documents/projects/natural-language-shell/frontend/natural_language_shell/CppCode/shellApi/CMakeFiles/rebuild_cache.dir
