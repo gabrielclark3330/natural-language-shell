@@ -49,6 +49,15 @@ Run these commands in the terminal to get their equivalent bash form.
 * `tr -dc A-Za-z0-9 < /dev/urandom | head -c 16`
   * `rX4Bs1u6MvJQdXg1`
 
+## To project running:
+* Clone repo
+* "cd natural-language-shell/frontend/natural_language_shell/cppCode/"
+* perform
+* run "cmake ."
+* run "make"
+* for all
+
+
 ## Future Improvements
 * When developing this project we experimented with a variety of OpenAI's models. It would be interesting to compare the performance of these models on similar tasks.
 * To improve overall model performance, we could generate training data for bash commands and their natural language description. This would be used with OpenAI's [Fine-Tuning](https://platform.openai.com/docs/guides/fine-tuning/fine-tuning-beta) feature to concentrate our model on shell command generation.
