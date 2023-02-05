@@ -24,11 +24,14 @@ class TerminalView extends StatelessWidget {
         ],
       ),
       body: Stack(
-        children: const [
+        children: [
           // Part that shows all the previous commands and the output of the command.
-          HistoryView(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 176,
+            child: const HistoryView(),
+          ),
           // Input fields and related widgets.
-          Align(
+          const Align(
               alignment: Alignment.bottomCenter,
               child: SizedBox(
                 height: 64,
