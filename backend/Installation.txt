@@ -1,3 +1,9 @@
+Library for C++ Http Requests:
+* https://github.com/yhirose/cpp-httplib
+
+Library for C++ Json:
+* https://github.com/nlohmann/json/releases/download/v3.11.2/json.hpp
+
 //sudo apt-get install openssl
 
 //Probably not this one ^, is default?
@@ -5,3 +11,12 @@
 sudo apt-get install libssl-dev
 
 Add: "/usr/include/openssl/**" to include path in C/C++ configurations
+
+Compiling Library and Main Code (Slow):
+* g++ shellApi.cpp cpp-httplib-master/httplib.h -lssl -lcrypto -o shellApi.o
+
+Precompiling Library:
+* g++ -c cpp-httplib-master/httplib.h -o httplib.h.gch -lssl -lcrypto
+
+Compiling Main Code:
+* g++ shellApi.cpp -lssl -lcrypto -o shellApi.o
