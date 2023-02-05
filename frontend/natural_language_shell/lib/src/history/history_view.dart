@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:natural_language_shell/src/terminal/terminal_model.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +14,15 @@ class HistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<TerminalModel>(
       builder: (context, term, child) {
-        return Text('Total len: ${term.history}');
+        return ListView.builder(
+          itemCount: min(term.commandCount, 30),
+          itemBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              height: 20,
+              child: Text("> ${term.history[index]}"),
+            );
+          },
+        );
       },
     );
   }
