@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:natural_language_shell/src/terminal/terminal_model.dart';
 
 import 'dart:ffi' as ffi;
 import 'dart:io' show Directory, Platform, sleep;
 import 'package:path/path.dart' as path;
 import 'package:ffi/ffi.dart';
+import 'package:provider/provider.dart';
 
 typedef shell_command_runner = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
 typedef ShellCommandRunner = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
@@ -32,6 +34,8 @@ class _Standard extends State<Standard> {
   }
 
   Future<String> getResponse() async {
+    var temp = Provider.of<TerminalModel>(context, listen: false);
+
     var cppCode = path.absolute("cppCode/");
     var libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.so');
     if (Platform.isMacOS) {
@@ -48,11 +52,12 @@ class _Standard extends State<Standard> {
         .lookup<ffi.NativeFunction<shell_command_runner>>('exec')
         .asFunction();
 
-    String programOutput = exec(str.toNativeUtf8()).toDartString();
+    String programOutput =
+        exec(temp.history[index].toNativeUtf8()).toDartString();
     print(programOutput);
 
     return Future.delayed(const Duration(seconds: 2), () {
-      return "I am data";
+      return programOutput;
       // throw Exception("Custom Error");
     });
   }
