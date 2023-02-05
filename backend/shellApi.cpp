@@ -21,10 +21,7 @@ std::string getToken(){
 std::string sendPrompt(std::string prompt){
 
 	json data = {
-		// {"model", "code-davinci-002"},
-		// {"model", "code-cushman-001"},
 		{"model", "text-davinci-003"},
-		// {"prompt", "/*" + prompt + "*/"},
 		{"prompt", prompt},
 		{"max_tokens", 1024},
 		// {"temperature", 1},
@@ -85,6 +82,9 @@ int main() {
 			break;
 		}
 	}
+
+	std::string header = "// Translate the following newline separated instructions into bash commands. Only output bash commands without additional text.\n";
+	prompt = header + prompt;
 
 	std::cout << prompt << std::endl;
 
