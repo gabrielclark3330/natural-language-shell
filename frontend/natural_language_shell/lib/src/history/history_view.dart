@@ -30,10 +30,18 @@ class _HistoryView extends State<HistoryView> {
           itemCount: term.commandCount,
           scrollDirection: Axis.vertical,
           clipBehavior: Clip.none,
+          padding: EdgeInsets.all(30),
           itemBuilder: (BuildContext context, int index) {
-            return Wrap(children: [
-              Standard(index, term.history[index]),
-            ]);
+            return Wrap(
+              children: [
+                Theme(
+                  data: Theme.of(context).copyWith(),
+                  child: Standard(index, term.history[index]),
+                )
+              ],
+              spacing: 20,
+              runSpacing: 20,
+            );
           },
         );
       },
