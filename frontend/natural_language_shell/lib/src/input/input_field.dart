@@ -14,15 +14,6 @@ class InputField extends StatefulWidget {
 }
 
 class _InputField extends State<InputField> {
-  final TextEditingController inputController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    inputController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,29 +22,24 @@ class _InputField extends State<InputField> {
         children: [
           const Icon(Icons.chevron_right_sharp, size: 32),
           Expanded(
-              child: TextField(
-            style: const TextStyle(
-              fontSize: 20,
-            ),
-            controller: inputController,
-            onSubmitted: (value) {
-              // Sends the current value of text field to either output, history or a function.
-              var term = Provider.of<TerminalModel>(context, listen: false);
-              term.addCommand(value);
-              inputController.text = "";
-              var text = Provider.of<InputModel>(context, listen: false);
-              text.change("");
-              // print(value);
-            },
-            onChanged: (value) {
-              // Keeps an updated value of the text field availble for when the submit button is pressed.
-              var text = Provider.of<InputModel>(context, listen: false);
-              text.change(value);
-            },
-            decoration: const InputDecoration(
-              hintText: "helpme",
-            ),
-          )),
+              child: Consumer<InputModel>(builder: (context, textField, child) {
+            return TextField(
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+              controller: textField.controller,
+              onSubmitted: (value) {
+                // Sends the current value of text field to either output, history or a function.
+                var term = Provider.of<TerminalModel>(context, listen: false);
+                term.addCommand(value);
+                var text = Provider.of<InputModel>(context, listen: false);
+                text.set("");
+              },
+              decoration: const InputDecoration(
+                hintText: "helpme",
+              ),
+            );
+          })),
         ],
       ),
     );
