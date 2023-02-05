@@ -15,21 +15,33 @@ bool startMicFunction() {
   return true;
 }
 
+final ButtonStyle micButtonSytle = TextButton.styleFrom(
+  minimumSize: const Size(10, 10),
+  // backgroundColor: Colors.grey,
+  // padding: const EdgeInsets.all(0),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(0),
+  ),
+);
+
+const double iconSize = 64.0;
+
 class _MicButton extends State<MicButton> {
   bool isOff = true;
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      iconSize: 48,
-      enableFeedback: true,
-      icon: (isOff)
+    return TextButton(
+      style: micButtonSytle,
+      child: (isOff)
           ? const Icon(
               Icons.mic_off_sharp,
+              size: iconSize,
               color: Colors.red,
             )
           : const Icon(
               Icons.mic,
+              size: iconSize,
               color: Colors.blue,
             ),
       onPressed: () {

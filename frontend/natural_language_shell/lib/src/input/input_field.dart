@@ -27,24 +27,34 @@ class _InputField extends State<InputField> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
-      child: TextField(
-        controller: inputController,
-        onSubmitted: (value) {
-          // Sends the current value of text field to either output, history or a function.
-          var term = Provider.of<TerminalModel>(context, listen: false);
-          term.add(value);
-          inputController.text = "";
-          // print(value);
-        },
-        onChanged: (value) {
-          // Keeps an updated value of the text field availble for when the submit button is pressed.
-          var text = Provider.of<InputModel>(context, listen: false);
-          text.change(value);
-        },
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: "helpme",
-        ),
+      child: Row(
+        children: [
+          const Icon(Icons.chevron_right_sharp, size: 32),
+          Expanded(
+              child: TextField(
+            style: const TextStyle(
+              fontSize: 20,
+            ),
+            controller: inputController,
+            onSubmitted: (value) {
+              // Sends the current value of text field to either output, history or a function.
+              var term = Provider.of<TerminalModel>(context, listen: false);
+              term.add(value);
+              inputController.text = "";
+              var text = Provider.of<InputModel>(context, listen: false);
+              text.change("");
+              // print(value);
+            },
+            onChanged: (value) {
+              // Keeps an updated value of the text field availble for when the submit button is pressed.
+              var text = Provider.of<InputModel>(context, listen: false);
+              text.change(value);
+            },
+            decoration: const InputDecoration(
+              hintText: "helpme",
+            ),
+          )),
+        ],
       ),
     );
   }
