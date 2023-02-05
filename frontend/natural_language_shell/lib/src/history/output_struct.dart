@@ -38,14 +38,18 @@ class Standard extends StatefulWidget {
 
 class _Standard extends State<Standard> {
   late Future<String> _data;
+  // late Future<String> _resp;
   final int index;
   // final String query;
   _Standard(this.index);
+  bool confirmedCommand = false;
+  bool rejectedCommand = false;
 
   @override
   void initState() {
     super.initState();
     _data = getResponse();
+    // _resp = runCommand();
   }
 
   Future<http.Response> send(String command, String key) {
@@ -64,9 +68,8 @@ class _Standard extends State<Standard> {
     );
   }
 
-  Future<String> getResponse() async {
+  Future<String> runCommand() async {
     var temp = Provider.of<TerminalModel>(context, listen: false);
-    // final String response =j
 
     var cppCode = path.absolute("cppCode/");
     var libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.so');
@@ -77,21 +80,35 @@ class _Standard extends State<Standard> {
       libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.dll');
     }
 
-    // // String whisperCodePath = path.join(cppCode, 'whisperCpp', 'main');
+    // String whisperCodePath = path.join(cppCode, 'whisperCpp', 'main');
 
     final dylib = ffi.DynamicLibrary.open(libraryPath);
     final ShellCommandRunner exec = dylib
         .lookup<ffi.NativeFunction<shell_command_runner>>('exec')
         .asFunction();
-
     String programOutput =
-        exec(temp.history[index].toNativeUtf8()).toDartString();
-    print(programOutput);
+        exec(temp.commandToRun[index].toNativeUtf8()).toDartString();
 
-    // print(jsonDecode(res.body));
     return Future.delayed(const Duration(seconds: 4), () {
       return programOutput;
       // return oai.output.trim();
+
+      // throw Exception("Custom Error");
+    });
+  }
+
+  Future<String> getResponse() async {
+    var temp = Provider.of<TerminalModel>(context, listen: false);
+    final String response =
+        await rootBundle.loadString('assets/keys/secret.json');
+    final data = await json.decode(response);
+    var res = await send(temp.history[index], data['key']);
+    OpenAI oai = OpenAI.fromJson(jsonDecode(res.body));
+    temp.setCommand(oai.output.trim());
+    // print(jsonDecode(res.body));
+    return Future.delayed(const Duration(seconds: 4), () {
+      // return programOutput;
+      return oai.output.trim();
 
       // throw Exception("Custom Error");
     });
@@ -109,8 +126,10 @@ class _Standard extends State<Standard> {
           ),
           child: IntrinsicHeight(
             child: Consumer<TerminalModel>(builder: (context, term, child) {
-              return Text("> ${term.history[index]}",
-                  style: TextStyle(fontSize: 18));
+              return Text(
+                "> ${term.history[index]}",
+                style: const TextStyle(fontSize: 18),
+              );
             }),
           ),
         ),
@@ -123,8 +142,59 @@ class _Standard extends State<Standard> {
             child: FutureBuilder(
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return Text(
-                      "< ${snapshot.data}, style: TextStyle(fontSize: 18),");
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "< ${snapshot.data}\n<Run this command?",
+                        style: const TextStyle(fontSize: 18),
+                      ),
+                      Row(
+                        children: [
+                          if (!confirmedCommand && !rejectedCommand) ...[
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    confirmedCommand = true;
+                                  });
+                                },
+                                child: const Text("yes")),
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    rejectedCommand = true;
+                                  });
+                                },
+                                child: const Text("no")),
+                          ]
+                        ],
+                      ),
+                      if (rejectedCommand) ...[
+                        const Text("< ", style: TextStyle(fontSize: 18)),
+                      ],
+                      if (confirmedCommand) ...[
+                        FutureBuilder(
+                            future: runCommand(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<String> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return Text(
+                                  "\$ ${snapshot.data}",
+                                  style: const TextStyle(fontSize: 18),
+                                );
+                              } else {
+                                return Row(
+                                  children: const [
+                                    Text("< ", style: TextStyle(fontSize: 18)),
+                                    Icon(Icons.timer),
+                                  ],
+                                );
+                              }
+                            }),
+                      ]
+                    ],
+                  );
                 } else {
                   return Row(
                     children: const [

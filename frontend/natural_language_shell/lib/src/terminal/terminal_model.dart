@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class TerminalModel extends ChangeNotifier {
   final List<String> _commandHistory = [];
+  final List<String> _commandToRun = [];
   // final List<String> _commandResponses = [];
 
   UnmodifiableListView<String> get history =>
@@ -12,6 +13,8 @@ class TerminalModel extends ChangeNotifier {
   //     UnmodifiableListView(_commandResponses);
 
   int get commandCount => _commandHistory.length;
+  UnmodifiableListView<String> get commandToRun =>
+      UnmodifiableListView(_commandToRun);
   // int get responseCount => _commandResponses.length;
 
   void addCommand(String str) {
@@ -22,6 +25,11 @@ class TerminalModel extends ChangeNotifier {
       _commandHistory.removeAt(0);
     }
 
+    notifyListeners();
+  }
+
+  void setCommand(String str) {
+    _commandToRun.add(str);
     notifyListeners();
   }
 
