@@ -1,7 +1,12 @@
 #define CPPHTTPLIB_OPENSSL_SUPPORT
+#include <array>
 #include "cpp-httplib-master/httplib.h"
+#include <cstdio>
 #include <iostream>
 #include "json.hpp"
+#include <memory>
+#include <stdexcept>
+#include <string>
 
 using json = nlohmann::json;
 
@@ -48,21 +53,44 @@ std::string sendPrompt(std::string prompt){
 		std::cout << "Request failed" << std::endl;
 		return "";
 	}
+}
 
-	
+std::string command(const char* cmd){
+	std::array<char, 128> buffer;
+    std::string result;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    return result;
 }
 
 int main() {
 
-	std::string prompt = "Create a python program to print hello world";
+	std::string prompt = "Write a command to list folders for terminal";
 
 	client.set_bearer_token_auth(getToken());
 
 	std::string response = sendPrompt(prompt);
-	std::cout << "G'DAY MATEY!!!!!" << std::endl;
 
-	std::cout << response << std::endl;
-	std::cout << "YA FINISHED MATE!!!" << std::endl;
+	if(response == ""){
+		return 0;
+	} else {
+		std::cout << response << std::endl;
+	}
+
+	std::string validation;
+	std::cin >> validation;
+
+	if(validation == "Yes"){
+		std::string commandOutput = command(response.data());
+		std::cout << commandOutput << std::endl;
+	} else {
+		std::cout << "Cancelled" << std::endl;
+	}
 
 	return 0;
 }
