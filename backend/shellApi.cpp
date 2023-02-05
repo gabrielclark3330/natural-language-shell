@@ -21,8 +21,11 @@ std::string getToken(){
 std::string sendPrompt(std::string prompt){
 
 	json data = {
-		{"model", "code-davinci-002"},
-		{"prompt", "/*" + prompt + "*/"},
+		// {"model", "code-davinci-002"},
+		// {"model", "code-cushman-001"},
+		{"model", "text-davinci-003"},
+		// {"prompt", "/*" + prompt + "*/"},
+		{"prompt", prompt},
 		{"max_tokens", 1024},
 		// {"temperature", 1},
 		// {"top_p", 1},
@@ -30,7 +33,7 @@ std::string sendPrompt(std::string prompt){
 		// {"stream", false},
 		// {"logprobs", NULL},
 		// {"echo", false},
-		// {"stop", NULL},
+		{"stop", "#"},
 		// {"presence_penalty", 0},
 		// {"frequency_penalty", 0},
 		// {"best_of", 1},
@@ -51,6 +54,8 @@ std::string sendPrompt(std::string prompt){
 		return result;
 	} else {
 		std::cout << "Request failed" << std::endl;
+		auto err = res.error();
+		std::cout << "HTTP error: " << httplib::to_string(err) << std::endl;
 		return "";
 	}
 }
@@ -69,8 +74,19 @@ std::string command(const char* cmd){
 }
 
 int main() {
+	std::cout << "N>";
+	std::string prompt;
+	std::string line;
+	while(getline(std::cin, line)){
+		if(!line.empty()){
+			prompt += "\n" + line;
+			std::cout << "N>";
+		} else {
+			break;
+		}
+	}
 
-	std::string prompt = "Write a command to list folders for terminal";
+	std::cout << prompt << std::endl;
 
 	client.set_bearer_token_auth(getToken());
 
@@ -78,18 +94,17 @@ int main() {
 
 	if(response == ""){
 		return 0;
-	} else {
-		std::cout << response << std::endl;
 	}
 
-	std::string validation;
-	std::cin >> validation;
+	std::cout << response << std::endl;
 
-	if(validation == "Yes"){
+	std::cout << "Is the command valid? ";
+	std::string validCommand;
+	getline(std::cin, validCommand);
+
+	if(validCommand == "Yes" || validCommand == "yes" || validCommand == "y" || validCommand == "Y"){
 		std::string commandOutput = command(response.data());
 		std::cout << commandOutput << std::endl;
-	} else {
-		std::cout << "Cancelled" << std::endl;
 	}
 
 	return 0;
