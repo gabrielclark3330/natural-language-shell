@@ -79,31 +79,35 @@ class _Standard extends State<Standard> {
 
   Future<String> runCommand() async {
     var temp = Provider.of<TerminalModel>(context, listen: false);
-
-    var cppCode = path.absolute("cppCode/");
-    var libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.so');
+//
+    var cppCodeDir = path.absolute("cppCode");
+    var libraryPath =
+        path.join(cppCodeDir, 'shellApi', 'libshell_api_library.so');
     if (Platform.isMacOS) {
-      libraryPath =
-          path.join(cppCode, 'shellApi', 'libshell_api_library.dylib');
+      libraryPath = 'libshell_api_library.dylib';
     } else if (Platform.isWindows) {
-      libraryPath = path.join(cppCode, 'shellApi', 'libshell_api_library.dll');
+      libraryPath =
+          path.join(cppCodeDir, 'shellApi', 'libshell_api_library.dll');
     }
 
     // String whisperCodePath = path.join(cppCode, 'whisperCpp', 'main');
 
+    //final dylib = ffi.DynamicLibrary.open(libraryPath);
     final dylib = ffi.DynamicLibrary.open(libraryPath);
     final ShellCommandRunner exec = dylib
         .lookup<ffi.NativeFunction<shell_command_runner>>('exec')
         .asFunction();
     String programOutput =
         exec(temp.commandToRun[index].toNativeUtf8()).toDartString();
+    return programOutput;
+    //return dylib.toString();
 
-    return Future.delayed(const Duration(seconds: 4), () {
+    /*return Future.delayed(const Duration(seconds: 4), () {
       return programOutput;
       // return oai.output.trim();
 
       // throw Exception("Custom Error");
-    });
+    });*/
   }
 
   Future<String> getResponse() async {
