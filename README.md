@@ -60,7 +60,9 @@ Run these commands in the terminal to get their equivalent bash form.
 * Clone repo
 * "cd natural-language-shell/frontend/natural_language_shell/cppCode/"
 * run "cmake ." and "make" for each sub directory
-* currently whisper speech to text integration only works on M1 Macs
+    * whisper speech to text integration only works on M1 Macs
+* install fluter on you system following [these](https://docs.flutter.dev/get-started/install) instructions.
+* run `flutter run` in `natural-language-shell/frontend/natural_language_shell`
 
 
 ## Future Improvements
