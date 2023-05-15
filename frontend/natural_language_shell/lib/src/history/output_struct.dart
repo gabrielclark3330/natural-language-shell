@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -79,12 +80,22 @@ class _Standard extends State<Standard> {
 
   Future<String> runCommand() async {
     var temp = Provider.of<TerminalModel>(context, listen: false);
-//
+    final DynamicLibrary terminalExec = DynamicLibrary.process();
+
+    final ShellCommandRunner exec = terminalExec
+        .lookup<ffi.NativeFunction<shell_command_runner>>('execf')
+        .asFunction();
+    String programOutput =
+        exec(temp.commandToRun[index].toNativeUtf8()).toDartString();
+    return programOutput;
+
+/*
     var cppCodeDir = path.absolute("cppCode");
     var libraryPath =
         path.join(cppCodeDir, 'shellApi', 'libshell_api_library.so');
     if (Platform.isMacOS) {
-      libraryPath = 'libshell_api_library.dylib';
+      libraryPath =
+          path.join(cppCodeDir, 'shellApi', 'libshell_api_library.dylib');
     } else if (Platform.isWindows) {
       libraryPath =
           path.join(cppCodeDir, 'shellApi', 'libshell_api_library.dll');
@@ -100,7 +111,7 @@ class _Standard extends State<Standard> {
     String programOutput =
         exec(temp.commandToRun[index].toNativeUtf8()).toDartString();
     return programOutput;
-    //return dylib.toString();
+    */
 
     /*return Future.delayed(const Duration(seconds: 4), () {
       return programOutput;

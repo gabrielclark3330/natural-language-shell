@@ -7,7 +7,9 @@
 #include <string.h>
 
 using namespace std;
-extern "C" char* exec(char* cmd) {
+extern "C" __attribute__((visibility("default"))) __attribute__((used))
+char* execf(char* cmd) {
+	//return strdup("hello");
 	std::array<char, 128> buffer;
 	std::string result;
 	std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
@@ -22,11 +24,3 @@ extern "C" char* exec(char* cmd) {
 	std::cout << ret;
 	return strdup(ret);
 }
-
-/*
-int main() {
-	const char* chars = exec("ls");
-	std::cout << chars;
-	return 1;
-}
-*/
